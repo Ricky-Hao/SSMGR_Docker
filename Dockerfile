@@ -1,4 +1,4 @@
-FROM node:6
+FROM node:6-alpine
 LABEL maintainer="RickyHao <a959695@live.com>"
 
 RUN npm i -g shadowsocks-manager && \
