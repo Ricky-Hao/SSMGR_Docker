@@ -3,10 +3,12 @@ LABEL maintainer="RickyHao <a959695@live.com>"
 
 RUN apk update &&\
     apk add tzdata &&\
-    npm i -g shadowsocks-manager &&\
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&\
     echo "Asia/Shanghai" > /etc/timezone &&\
-    apk del tzdata
+    apk del tzdata &&\
+    npm config set unsafe-perm true &&\
+    npm i -g shadowsocks-manager
+
 
 COPY run.sh /root/
 RUN chmod +x /root/run.sh
