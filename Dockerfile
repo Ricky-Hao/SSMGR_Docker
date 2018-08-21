@@ -7,7 +7,7 @@ RUN apk update &&\
     echo "Asia/Shanghai" > /etc/timezone &&\
     apk del tzdata &&\
     npm config set unsafe-perm true &&\
-    npm i -g shadowsocks-manager@0.19.2
+    npm i -g shadowsocks-manager@0.17.14
 
 
 COPY run.sh /root/
