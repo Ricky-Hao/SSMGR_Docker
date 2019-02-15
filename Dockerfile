@@ -1,4 +1,4 @@
-FROM node:10.15.1-alpine
+FROM node:8.15.0-alpine
 LABEL maintainer="RickyHao <a959695@live.com>"
 
 RUN apk update &&\
@@ -7,7 +7,7 @@ RUN apk update &&\
     echo "Asia/Shanghai" > /etc/timezone &&\
     apk del tzdata &&\
     npm config set unsafe-perm true &&\
-    npm i -g shadowsocks-manager
+    npm i -g shadowsocks-manager@0.29.15
 
 
 COPY run.sh /root/
