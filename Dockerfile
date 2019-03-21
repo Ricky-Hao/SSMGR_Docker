@@ -1,7 +1,6 @@
 FROM node:10.15.3-alpine
 LABEL maintainer="RickyHao <a959695@live.com>"
 
-COPY . /tmp/repo
 RUN set -ex \
 	# Build environment setup
 	&& apk add --no-cache --virtual .build-deps \
@@ -15,7 +14,10 @@ RUN set -ex \
       	linux-headers \
       	mbedtls-dev \
       	pcre-dev \
+        git \
  	# Build & install
+    && mkdir -p /tmp/repo \
+    && git clone https://github.com/shadowsocks/shadowsocks-libev.git /tmp/repo \
  	&& cd /tmp/repo \
  	&& ./autogen.sh \
  	&& ./configure --prefix=/usr --disable-documentation \
