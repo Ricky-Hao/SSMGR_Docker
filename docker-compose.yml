@@ -1,6 +1,10 @@
 version: "3.7"
 
 services:
+    redis:
+        image: redis:alpine
+        restart: always
+
     ssmgr:
         image: rickyhao/ssmgr_docker:latest
         restart: always
@@ -8,7 +12,5 @@ services:
           - /home/ricky/.ssmgr:/root/.ssmgr:Z
         ports:
           - "8888:8888"
-
-    redis:
-        image: redis:alpine
-        restart: always
+        depends_on:
+          - redis
