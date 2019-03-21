@@ -19,6 +19,7 @@ RUN set -ex \
     && mkdir -p /tmp/repo \
     && git clone https://github.com/shadowsocks/shadowsocks-libev.git /tmp/repo \
  	&& cd /tmp/repo \
+    && git submodule update --init --recursive \
  	&& ./autogen.sh \
  	&& ./configure --prefix=/usr --disable-documentation \
  	&& make install \
