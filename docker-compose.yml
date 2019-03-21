@@ -24,7 +24,7 @@ services:
           - /home/ricky/.ssmgr:/root/.ssmgr:Z
         depends_on:
           - redis
-        command: -c /root/.ssmgr/ss.yml -r libev:chacha20-ietf-poly1305
+        command: -c /root/.ssmgr/ss.yml 
 
     webgui:
         image: rickyhao/ssmgr_docker:latest
@@ -37,5 +37,5 @@ services:
         ports:
           - "8888:8888"
         depends_on:
-          - ss
+          - node
         command: -c /root/.ssmgr/webgui.yml
