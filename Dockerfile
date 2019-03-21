@@ -1,6 +1,34 @@
 FROM node:10.15.3-alpine
 LABEL maintainer="RickyHao <a959695@live.com>"
 
+COPY . /tmp/repo
+RUN set -ex \
+	# Build environment setup
+	&& apk add --no-cache --virtual .build-deps \
+		autoconf \
+      	automake \
+      	build-base \
+      	c-ares-dev \
+      	libev-dev \
+      	libtool \
+      	libsodium-dev \
+      	linux-headers \
+      	mbedtls-dev \
+      	pcre-dev \
+ 	# Build & install
+ 	&& cd /tmp/repo \
+ 	&& ./autogen.sh \
+ 	&& ./configure --prefix=/usr --disable-documentation \
+ 	&& make install \
+ 	&& apk del .build-deps \
+ 	# Runtime dependencies setup
+ 	&& apk add --no-cache \
+      	rng-tools \
+      	$(scanelf --needed --nobanner /usr/bin/ss-* \
+      	| awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+      	| sort -u) \
+ 	&& rm -rf /tmp/repo
+
 RUN apk update &&\
     apk add tzdata &&\
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&\
@@ -12,5 +40,5 @@ RUN apk update &&\
 
 EXPOSE 8888
 	
-ENTRYPOINT ["/usr/local/bin/ssmgr", "-c"]
-CMD ["/root/.ssmgr/webgui.yml"]
+ENTRYPOINT ["/usr/local/bin/ssmgr"]
+CMD ["-c", "/root/.ssmgr/webgui.yml"]

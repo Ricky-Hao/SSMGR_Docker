@@ -14,7 +14,7 @@ services:
             internal:
                 ipv4_address: 172.20.0.100
 
-    ss:
+    node:
         image: rickyhao/ssmgr_docker:latest
         restart: always
         networks:
@@ -24,7 +24,7 @@ services:
           - /home/ricky/.ssmgr:/root/.ssmgr:Z
         depends_on:
           - redis
-        command: /root/.ssmgr/ss.yml
+        command: -c /root/.ssmgr/ss.yml -r libev:chacha20-ietf-poly1305
 
     webgui:
         image: rickyhao/ssmgr_docker:latest
@@ -38,4 +38,4 @@ services:
           - "8888:8888"
         depends_on:
           - ss
-        command: /root/.ssmgr/webgui.yml
+        command: -c /root/.ssmgr/webgui.yml
