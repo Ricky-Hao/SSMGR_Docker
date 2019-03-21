@@ -1,16 +1,41 @@
 version: "3.7"
+networks:
+    internal:
+        ipam:
+            driver: default
+            config:
+              - subnet: 172.20.0.0/24
 
 services:
     redis:
         image: redis:alpine
         restart: always
+        networks:
+            internal:
+                ipv4_address: 172.20.0.100
 
-    ssmgr:
+    ss:
         image: rickyhao/ssmgr_docker:latest
         restart: always
+        networks:
+            internal:
+                ipv4_address: 172.20.0.101
+        volumes:
+          - /home/ricky/.ssmgr:/root/.ssmgr:Z
+        depends_on:
+          - redis
+        command: /root/.ssmgr/ss.yml
+
+    webgui:
+        image: rickyhao/ssmgr_docker:latest
+        restart: always
+        networks:
+            internal:
+                ipv4_address: 172.20.0.102
         volumes:
           - /home/ricky/.ssmgr:/root/.ssmgr:Z
         ports:
           - "8888:8888"
         depends_on:
-          - redis
+          - ss
+        command: /root/.ssmgr/webgui.yml
