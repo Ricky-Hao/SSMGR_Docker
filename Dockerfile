@@ -1,4 +1,4 @@
-FROM node:10.15.1-alpine
+FROM node:10.15.3-alpine
 LABEL maintainer="RickyHao <a959695@live.com>"
 
 RUN apk update &&\
@@ -10,9 +10,9 @@ RUN apk update &&\
     npm i -g shadowsocks-manager
 
 
-COPY run.sh /root/
-RUN chmod +x /root/run.sh
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 8888
 	
-ENTRYPOINT ["sh", "/root/run.sh"]
+ENTRYPOINT ["entrypoint.sh"]

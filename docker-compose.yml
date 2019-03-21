@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+    ssmgr:
+        image: rickyhao/ssmgr_docker:latest
+        volumes:
+          - /home/ricky/.ssmgr:/root/.ssmgr:Z
+        ports:
+          - "8888:8888"
+
+    redis:
+        image: redis:alpine
